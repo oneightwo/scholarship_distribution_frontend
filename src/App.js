@@ -1,13 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Provider} from "react-redux";
+import {BrowserRouter} from "react-router-dom";
+import {Route, Switch} from "react-router";
+import Admin from "./components/Admin";
+import NavigationHeader from "./components/NavigationHeader";
+import Login from "./components/Login";
+import FormRegistration from "./components/FormRegistration";
 
-function App() {
-  return (
-    <div>
-
-    </div>
-  );
-}
+const App = ({store}) => (
+    <Provider store={store}>
+        <BrowserRouter>
+            <NavigationHeader/>
+            <Switch>
+                <Route exact path='/' component={FormRegistration}/>
+                <Route path='/admin' component={Admin}/>
+            </Switch>
+            <Login/>
+        </BrowserRouter>
+    </Provider>
+);
 
 export default App;
