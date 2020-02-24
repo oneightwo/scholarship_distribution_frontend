@@ -2,35 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2d45f87b-383d-420a-aa7f-7d12e0dc5f52" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/login.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/logout.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Admin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/FormRegistration.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/NavigationHeader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/base/Input.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/base/Label.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/base/Selector.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/LoginContainer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/AdminQueries.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/Constants.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/StudentQueries.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/entity/Student.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/actions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/login/actions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/login/reducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/navigationHeader/actions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/navigationHeader/reducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/reducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/registration/actions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/registration/reducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/store.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/component/Navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Root.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/FormRegistration.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/FormRegistration.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/base/Input.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/base/Input.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/base/Selector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/base/Selector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/registration/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/registration/actions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/registration/reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/registration/reducer.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,15 +49,15 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2019.2.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Projects\scholarship_distribution\scholarship_distribution_frontend\src\store" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Projects\scholarship_distribution\scholarship_distribution_frontend\src\store" />
       <recent name="D:\Projects\scholarship_distribution\scholarship_distribution_frontend\src\store\navigationHeader" />
       <recent name="D:\Projects\scholarship_distribution\scholarship_distribution_frontend\src\data" />
       <recent name="D:\Projects\scholarship_distribution\scholarship_distribution_frontend\src\store\base" />
       <recent name="D:\Projects\scholarship_distribution\scholarship_distribution_frontend\src\components\base" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Projects\scholarship_distribution\scholarship_distribution_frontend\src\store" />
     </key>
   </component>
   <component name="RunManager" selected="npm.npm start">
@@ -117,7 +94,9 @@
       <workItem from="1581228209281" duration="44285000" />
       <workItem from="1581493569177" duration="4079000" />
       <workItem from="1581654428687" duration="12326000" />
-      <workItem from="1581955358178" duration="599000" />
+      <workItem from="1581955358178" duration="1573000" />
+      <workItem from="1582223194492" duration="6953000" />
+      <workItem from="1582375166622" duration="27440000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1580829841263</created>
@@ -126,7 +105,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580829841263</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="+ redux&#10;+ base components&#10;+ components &#10;+ getTokens">
+      <created>1581969145774</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1581969145775</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -134,7 +120,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="+ redux&#10;+ base components&#10;+ components &#10;+ getTokens" />
+    <option name="LAST_COMMIT_MESSAGE" value="+ redux&#10;+ base components&#10;+ components &#10;+ getTokens" />
   </component>
   <component name="WindowStateProjectService">
     <state x="361" y="93" key="#ESLint" timestamp="1580830089156">
@@ -150,38 +137,39 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="499" y="182" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.864@0.0.1536.864" timestamp="1581197569249" />
-    <state x="294" y="30" key="CommitChangelistDialog2" timestamp="1580829840275">
+    <state x="294" y="30" key="CommitChangelistDialog2" timestamp="1581969143981">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="294" y="30" key="CommitChangelistDialog2/0.0.1536.864/-1280.54.1280.1024@0.0.1536.864" timestamp="1580829840275" />
-    <state x="542" y="189" key="FileChooserDialogImpl" timestamp="1581238290243">
+    <state x="294" y="30" key="CommitChangelistDialog2/0.0.1536.864/-1280.54.1280.1024@0.0.1536.864" timestamp="1581969143981" />
+    <state x="542" y="189" key="FileChooserDialogImpl" timestamp="1582381798648">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="542" y="189" key="FileChooserDialogImpl/0.0.1536.864/-1280.54.1280.1024@0.0.1536.864" timestamp="1581238290243" />
+    <state x="542" y="189" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1582381798648" />
     <state x="558" y="329" key="Github.ShareDialog" timestamp="1580829881267">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="558" y="329" key="Github.ShareDialog/0.0.1536.864/-1280.54.1280.1024@0.0.1536.864" timestamp="1580829881267" />
-    <state width="1516" height="321" key="GridCell.Tab.0.bottom" timestamp="1581873076434">
+    <state width="1516" height="321" key="GridCell.Tab.0.bottom" timestamp="1582549845407">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state width="1516" height="155" key="GridCell.Tab.0.bottom/0.0.1536.864/-1280.54.1280.1024@0.0.1536.864" timestamp="1581319592348" />
-    <state width="1516" height="321" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1581873076434" />
-    <state width="1516" height="321" key="GridCell.Tab.0.center" timestamp="1581873076433">
+    <state width="1516" height="321" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1582549845407" />
+    <state width="1516" height="321" key="GridCell.Tab.0.center" timestamp="1582549845407">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state width="1516" height="155" key="GridCell.Tab.0.center/0.0.1536.864/-1280.54.1280.1024@0.0.1536.864" timestamp="1581319592347" />
-    <state width="1516" height="321" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1581873076433" />
-    <state width="1516" height="321" key="GridCell.Tab.0.left" timestamp="1581873076432">
+    <state width="1516" height="321" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1582549845407" />
+    <state width="1516" height="321" key="GridCell.Tab.0.left" timestamp="1582549845407">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state width="1516" height="155" key="GridCell.Tab.0.left/0.0.1536.864/-1280.54.1280.1024@0.0.1536.864" timestamp="1581319592347" />
-    <state width="1516" height="321" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1581873076432" />
-    <state width="1516" height="321" key="GridCell.Tab.0.right" timestamp="1581873076433">
+    <state width="1516" height="321" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1582549845407" />
+    <state width="1516" height="321" key="GridCell.Tab.0.right" timestamp="1582549845407">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state width="1516" height="155" key="GridCell.Tab.0.right/0.0.1536.864/-1280.54.1280.1024@0.0.1536.864" timestamp="1581319592347" />
-    <state width="1516" height="321" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1581873076433" />
+    <state width="1516" height="321" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1582549845407" />
     <state width="1516" height="277" key="GridCell.Tab.1.bottom" timestamp="1581245027427">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -230,15 +218,16 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state width="1516" height="277" key="GridCell.Tab.3.right/0.0.1536.864/-1280.54.1280.1024@0.0.1536.864" timestamp="1581245027427" />
-    <state x="361" y="167" key="Vcs.Push.Dialog.v2" timestamp="1580829895925">
+    <state x="361" y="167" key="Vcs.Push.Dialog.v2" timestamp="1582573177254">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="361" y="167" key="Vcs.Push.Dialog.v2/0.0.1536.864/-1280.54.1280.1024@0.0.1536.864" timestamp="1580829895925" />
-    <state x="448" y="174" width="639" height="516" key="find.popup" timestamp="1581662455222">
+    <state x="361" y="167" key="Vcs.Push.Dialog.v2/0.0.1536.864/-1280.54.1280.1024@0.0.1536.864" timestamp="1581969290274" />
+    <state x="361" y="167" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1582573177254" />
+    <state x="448" y="174" width="639" height="516" key="find.popup" timestamp="1582566906866">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="448" y="174" width="639" height="516" key="find.popup/0.0.1536.864/-1280.54.1280.1024@0.0.1536.864" timestamp="1581264372840" />
-    <state x="448" y="174" width="639" height="516" key="find.popup/0.0.1536.864@0.0.1536.864" timestamp="1581662455222" />
+    <state x="448" y="174" width="639" height="516" key="find.popup/0.0.1536.864@0.0.1536.864" timestamp="1582566906866" />
     <state x="425" y="197" key="run.anything.popup" timestamp="1581531407549">
       <screen x="0" y="0" width="1536" height="864" />
     </state>

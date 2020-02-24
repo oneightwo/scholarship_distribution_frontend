@@ -1,10 +1,16 @@
-import {REGISTRATION_CHANGE_FIELDS} from "./actions";
+import {
+    REGISTRATION_CHANGE_ALLOW_CHECKBOX,
+    REGISTRATION_CHANGE_FIELDS, REGISTRATION_FIELDS_CHECK_VALIDATION,
+    REGISTRATION_LOAD_COURSES_DATA,
+    REGISTRATION_LOAD_SCIENCE_DIRECTIONS_DATA, REGISTRATION_LOAD_UNIVERSITIES_DATA
+} from "./actions";
 
 const defaultState = {
-    settings: {
-        isValid: null,
-        isActive: false
-    },
+    isAllowed: false,
+    isValid: null,
+    courses: [],
+    scienceDirections: [],
+    universities: [],
     fields: [
         {
             id: 'surname',
@@ -171,6 +177,35 @@ export const registrationReducer = (state = defaultState, {type, payload}) => {
                     }
                     return i;
                 })
+            };
+        case REGISTRATION_LOAD_COURSES_DATA:
+            return {
+                ...state, courses: payload
+            };
+        case REGISTRATION_LOAD_SCIENCE_DIRECTIONS_DATA:
+            return {
+                ...state, scienceDirections: payload
+            };
+        case REGISTRATION_LOAD_UNIVERSITIES_DATA:
+            return {
+                ...state, universities: payload
+            };
+        case REGISTRATION_CHANGE_ALLOW_CHECKBOX:
+            return {
+                ...state, isAllowed: payload
+            };
+        case REGISTRATION_FIELDS_CHECK_VALIDATION:
+            let i = true;
+            return {
+                ...state, fields: state.fields.map(v => {
+                    if (v.required && !v.isValid) {
+                        v.isValid = false;
+                        i = false;
+                        return v;
+                    }
+                    return v;
+                }),
+                isValid: i
             };
         default:
             return state;

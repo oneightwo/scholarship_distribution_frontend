@@ -52,7 +52,7 @@ export default class Input extends React.Component {
                    type={type}
                    className={this.className(isValid)}
                    placeholder={placeholder}
-                   onChange={(e) => {onChange(e, this.validation(e.target.value), required)}}
+                   onChange={(e) => {onChange(e.target.id, e.target.value, this.validation(e.target.value), required)}}
                    value={value}/>
         );
     }

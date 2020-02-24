@@ -2,14 +2,15 @@ import React, {Component} from "react";
 
 import PropTypes from 'prop-types';
 
+export const defaultItem = {id: '', name: '-'};
+
 export default class Selector extends Component {
 
     static propTypes = {
         id: PropTypes.string.isRequired,
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ]),
+        value: PropTypes.object,
+        defaultValue: PropTypes.object,
+        listValues: PropTypes.array,
         isValid: PropTypes.bool,
         validation: PropTypes.func,
         required: PropTypes.bool,
@@ -18,10 +19,12 @@ export default class Selector extends Component {
 
     static defaultProps = {
         id: '',
-        value: '',
+        value: defaultItem,
+        listValues: [defaultItem],
+        defaultValue: defaultItem,
         isValid: null,
         validation: value => {
-            return value !== ''
+            return value !== defaultItem.name
         },
         required: false,
         onChange: () => {
@@ -36,7 +39,7 @@ export default class Selector extends Component {
         return isValid ? className + ' is-valid' : className + ' is-invalid';
     };
 
-    validation = value => {
+    validation = (value) => {
         const {validation, required} = this.props;
         if (required) {
             return validation(value);
@@ -45,17 +48,24 @@ export default class Selector extends Component {
         }
     };
 
+    value = (value) => {
+        const {listValues} = this.props;
+        return listValues.filter(v => v.name = value)[0];
+    };
+
     render() {
-        const {id, type, placeholder, isValid, value, onChange, required} = this.props;
+        const {id, defaultValue, listValues, isValid, onChange, required} = this.props;
+        console.log(listValues);
         return (
             <select id={id}
                     className={this.className(isValid)}
                     onChange={(e) => {
-                        onChange(e, this.validation(e.target.value), required)
-                    }}
-                    value={value}>
-                {}
-                <option>-</option>
+                        onChange(e.target.id, this.value(e.target.value), this.validation(e.target.value), required)
+                    }}>
+                <option key={defaultItem.id}>{defaultItem.name}</option>
+                {listValues.map((v) =>
+                    <option key={v.id} selected={v.name === defaultValue.name ? 'selected' : ''}>{v.name}</option>
+                )}
             </select>
         );
     }
