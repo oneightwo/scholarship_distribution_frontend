@@ -4,11 +4,12 @@ import Input from "./base/Input";
 import Label from "./base/Label";
 import Selector from "./base/Selector";
 import {
-    changeField, checkValidation,
+    changeField, changeFile, checkValidation,
     loadCoursesData,
     loadScienceDirectionsData,
     loadUniversitiesData, setAllowed, submitForm
 } from "../store/registration/actions";
+import store from "../store/store";
 
 class FormRegistration extends React.Component {
 
@@ -20,11 +21,17 @@ class FormRegistration extends React.Component {
     }
 
     handleSubmit = () => {
-        this.props.checkValidation();
-        // this.props.submitForm(this.props.data);
+        const {data, submitForm, checkValidation, isAllowed, file} = this.props;
+        if (isAllowed) {
+            checkValidation();
+            if (store.getState().registration.isValid && isAllowed) {
+                submitForm(data, file);
+            }
+        }
     };
 
     onChange = (id, value, isValid, required) => {
+        console.log(id, value, isValid, required);
         this.props.changeFields(id, value, required, isValid);
     };
 
@@ -40,12 +47,17 @@ class FormRegistration extends React.Component {
         return this.props.isAllowed ? 'btn btn-primary col-auto' : 'btn btn-primary col-auto disabled'
     };
 
+    handleChangeFile = (id, value, isValid, required) => {
+        console.log(id, value, isValid, required);
+        this.props.changeFile(id, value, required, isValid);
+    };
+
     render() {
         const {
             surname, name, patronymic, university, course, faculty, email, number, scienceDirection, topic,
-            c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, courses, scienceDirections, universities, isAllowed
+            c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, courses, scienceDirections, universities,
+            isAllowed
         } = this.props;
-        console.log(this.props);
         return (
             <div className='card m-5'>
                 <div className='card-header'><h5>Регистрация</h5></div>
@@ -84,7 +96,6 @@ class FormRegistration extends React.Component {
                                 <Label value="Университет"/>
                                 <Selector id="university"
                                           listValues={universities}
-                                          value={university.value}
                                           onChange={this.onChange}
                                           required={true}
                                           isValid={university.isValid}/>
@@ -93,7 +104,6 @@ class FormRegistration extends React.Component {
                                 <Label value="Курс"/>
                                 <Selector id="course"
                                           listValues={courses}
-                                          value={course.value}
                                           onChange={this.onChange}
                                           required={true}
                                           isValid={course.isValid}/>
@@ -133,14 +143,13 @@ class FormRegistration extends React.Component {
                                 <Label value="Направление"/>
                                 <Selector id="scienceDirection"
                                           listValues={scienceDirections}
-                                          value={scienceDirection.value}
                                           onChange={this.onChange}
                                           required={true}
                                           isValid={scienceDirection.isValid}/>
                             </div>
                             <div className="col-lg-8 mb-3">
                                 <Label value="Тема"/>
-                                <Input id="topic" value="Тема"
+                                <Input id="topic"
                                        placeholder="Исследование космоса"
                                        onChange={this.onChange}
                                        value={topic.value}
@@ -150,7 +159,7 @@ class FormRegistration extends React.Component {
                         </div>
 
                         <div className="row">
-                            <div className="col-lg-12 mb-3">
+                            <div className="col-lg-9 mb-3">
                                 <Label value="Критерии"/>
                                 <div className="input-group">
                                     <Input id="c1"
@@ -260,6 +269,16 @@ class FormRegistration extends React.Component {
                                            isValid={c15.isValid}/>
                                 </div>
                             </div>
+                            <div className='col-lg-3 mb-3'>
+                                <Label value='Пояснительная записка'/>
+                                <input type="file"
+                                       onChange={(e) => this.handleChangeFile('file', e.target.files[0], true, true)}/>
+                                {/*<div className='custom-file'>*/}
+                                {/*    <Label value='Пояснительная записка'/>*/}
+                                {/*    <input type="file" className="custom-file-input" id="customFile"/>*/}
+                                {/*    <label className="custom-file-label" htmlFor="customFile">Выберите файл</label>*/}
+                                {/*</div>*/}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -309,23 +328,27 @@ const mapStateToProps = state => {
         c13: state.registration.fields.filter(v => v.id === 'c13')[0],
         c14: state.registration.fields.filter(v => v.id === 'c14')[0],
         c15: state.registration.fields.filter(v => v.id === 'c15')[0],
+        file: state.registration.file,
 
         courses: state.registration.courses,
         scienceDirections: state.registration.scienceDirections,
         universities: state.registration.universities,
 
-        isAllowed: state.registration.isAllowed
+        isValid: state.registration.isValid,
+        isAllowed: state.registration.isAllowed,
+        all: state.registration
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         changeFields: (id, value, required, isValid) => dispatch(changeField(id, value, required, isValid)),
+        changeFile: (id, value, required, isValid) => dispatch(changeFile(id, value, required, isValid)),
         loadCoursesData: () => dispatch(loadCoursesData()),
         loadUniversitiesData: () => dispatch(loadUniversitiesData()),
         loadScienceDirectionsData: () => dispatch(loadScienceDirectionsData()),
         setAllowed: (isAllow) => dispatch(setAllowed(isAllow)),
-        submitForm: (data) => dispatch(submitForm(data)),
+        submitForm: (data, file) => dispatch(submitForm(data, file)),
         checkValidation: () => dispatch(checkValidation())
     }
 };

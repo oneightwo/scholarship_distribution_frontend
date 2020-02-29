@@ -1,6 +1,6 @@
 import {
     REGISTRATION_CHANGE_ALLOW_CHECKBOX,
-    REGISTRATION_CHANGE_FIELDS, REGISTRATION_FIELDS_CHECK_VALIDATION,
+    REGISTRATION_CHANGE_FIELDS, REGISTRATION_CHANGE_FILE, REGISTRATION_FIELDS_CHECK_VALIDATION,
     REGISTRATION_LOAD_COURSES_DATA,
     REGISTRATION_LOAD_SCIENCE_DIRECTIONS_DATA, REGISTRATION_LOAD_UNIVERSITIES_DATA
 } from "./actions";
@@ -11,6 +11,12 @@ const defaultState = {
     courses: [],
     scienceDirections: [],
     universities: [],
+    file: {
+        id: 'file',
+        value: new File([], ''),
+        required: true,
+        isValid: null
+    },
     fields: [
         {
             id: 'surname',
@@ -57,7 +63,7 @@ const defaultState = {
         {
             id: 'number',
             value: '',
-            required: true,
+            required: false,
             isValid: null
         },
         {
@@ -169,6 +175,7 @@ export const registrationReducer = (state = defaultState, {type, payload}) => {
     console.log(payload);
     switch (type) {
         case REGISTRATION_CHANGE_FIELDS:
+            console.log('payload', payload);
             return {
                 ...state, fields: state.fields.map(i => {
                     if (payload.id === i.id) {
@@ -179,6 +186,7 @@ export const registrationReducer = (state = defaultState, {type, payload}) => {
                 })
             };
         case REGISTRATION_LOAD_COURSES_DATA:
+            console.log('->' + REGISTRATION_LOAD_COURSES_DATA + '<-');
             return {
                 ...state, courses: payload
             };
@@ -194,15 +202,25 @@ export const registrationReducer = (state = defaultState, {type, payload}) => {
             return {
                 ...state, isAllowed: payload
             };
+        case REGISTRATION_CHANGE_FILE:
+            return {
+                ...state, file: {
+                    value: payload.value,
+                    isValid: payload.isValid,
+                }
+            };
         case REGISTRATION_FIELDS_CHECK_VALIDATION:
+            console.log(REGISTRATION_FIELDS_CHECK_VALIDATION);
             let i = true;
             return {
                 ...state, fields: state.fields.map(v => {
                     if (v.required && !v.isValid) {
                         v.isValid = false;
+                        console.log('i 1=', i);
                         i = false;
                         return v;
                     }
+                    console.log('i 2=', i);
                     return v;
                 }),
                 isValid: i

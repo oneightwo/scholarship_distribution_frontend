@@ -29,7 +29,7 @@ const defaultState = {
 };
 
 export const loginReducer = (state = defaultState, {type, payload}) => {
-    console.log(payload);
+    // console.log(payload);
     switch (type) {
         case LOGIN_CHANGE_FIELDS:
             return {
@@ -52,7 +52,7 @@ export const loginReducer = (state = defaultState, {type, payload}) => {
                 })
             };
         case LOGIN_AUTHORIZATION_SUCCESS:
-            console.log(payload);
+            // console.log(payload);
             localStorage.setItem(ACTIVE_USER, JSON.stringify(payload));
             return {
                 ...state,
@@ -73,7 +73,7 @@ export const loginReducer = (state = defaultState, {type, payload}) => {
                 })
             };
         case LOGIN_FORM_OPEN:
-            console.log(LOGIN_FORM_OPEN);
+            // console.log(LOGIN_FORM_OPEN);
             return {
                 ...state,
                 settings: {isActive: true}

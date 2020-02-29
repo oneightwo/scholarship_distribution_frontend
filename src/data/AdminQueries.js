@@ -33,7 +33,7 @@ import {ACTIVE_USER} from "./Constants";
 // };
 
 export const getTokens = async ({username, password}) => {
-    console.log(username, password);
+    // console.log(username, password);
     let client_id = 'devglan-client';
     let client_secret = 'devglan-secret';
     const url = 'oauth/token';

@@ -1,11 +1,17 @@
-import {getCourse, getScienceDirection, getUniversities} from "../../data/StudentQueries";
-import {LOGIN_FIELDS_CHECK_VALIDATION} from "../login/actions";
+import {
+    getCourse,
+    getScienceDirection,
+    getUniversities,
+    submitFile,
+    submitFormRegistration
+} from "../../data/StudentQueries";
 
 export const REGISTRATION_CHANGE_FIELDS = 'REGISTRATION_CHANGE_FIELDS';
 export const REGISTRATION_LOAD_COURSES_DATA = 'REGISTRATION_LOAD_COURSES_DATA';
 export const REGISTRATION_LOAD_UNIVERSITIES_DATA = 'REGISTRATION_LOAD_UNIVERSITIES_DATA';
 export const REGISTRATION_LOAD_SCIENCE_DIRECTIONS_DATA = 'REGISTRATION_LOAD_SCIENCE_DIRECTIONS_DATA';
 export const REGISTRATION_CHANGE_ALLOW_CHECKBOX = 'REGISTRATION_CHANGE_ALLOW_CHECKBOX';
+export const REGISTRATION_CHANGE_FILE = 'REGISTRATION_CHANGE_FILE';
 export const REGISTRATION_SUBMIT = 'REGISTRATION_SUBMIT';
 export const REGISTRATION_FIELDS_CHECK_VALIDATION = 'REGISTRATION_FIELDS_CHECK_VALIDATION';
 
@@ -19,24 +25,34 @@ export const changeField = (id, value, required, isValid) => ({
     }
 });
 
+export const changeFile = (id, value, required, isValid) => ({
+    type: REGISTRATION_CHANGE_FILE,
+    payload: {
+        id,
+        value,
+        required,
+        isValid
+    }
+});
+
 export const loadCoursesData = () => {
-  return (dispatch) => getCourse()
-      .then(c => {
-          if (c.error) {
-              dispatch(setError('c'))
-          } else {
-              dispatch(setCourses(c))
-          }
-      })
+    return (dispatch) => getCourse()
+        .then(c => {
+            if (c.error) {
+                dispatch(setError('c'));
+            } else {
+                dispatch(setCourses(c));
+            }
+        })
 };
 
 export const loadUniversitiesData = () => {
     return (dispatch) => getUniversities()
         .then(u => {
             if (u.error) {
-                dispatch(setError('u'))
+                dispatch(setError('u'));
             } else {
-                dispatch(setUniversities(u))
+                dispatch(setUniversities(u));
             }
         })
 };
@@ -45,16 +61,33 @@ export const loadScienceDirectionsData = () => {
     return (dispatch) => getScienceDirection()
         .then(sd => {
             if (sd.error) {
-                dispatch(setError('sd'))
+                dispatch(setError('sd'));
             } else {
-                dispatch(setScienceDirections(sd))
+                dispatch(setScienceDirections(sd));
             }
         })
 };
 
-export const submitForm = (data) => {
-    console.log(getObject(data));
+export const submitForm = (data, file) => {
+    return (dispatch) => submitFormRegistration(getObject(data))
+        .then(res => {
+            console.log(res);
+            Object.defineProperty(file.value, 'name', {
+                writable: true,
+                value: res.id + '.jpg'
+            });
+            console.log('newFile', file.value);
+            submitFile(file.value)
+                .then(res =>
+                    dispatch(submit())
+                );
+        });
 };
+
+const submit = () => ({
+    type: REGISTRATION_SUBMIT,
+    payload: {}
+});
 
 export const getObject = (data) => {
     let obj = {};

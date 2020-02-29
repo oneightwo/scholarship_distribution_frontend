@@ -25,7 +25,7 @@ class Login extends React.Component {
 
     render() {
         const {isActive, username, password} = this.props;
-        console.log(this.props.username);
+        // console.log(this.props.username);
         return (
             <Modal
                 show={isActive}

@@ -18,12 +18,12 @@ export const closeForm = () => ({
     payload: {}
 });
 
-export const changeField = (id, value, required, isValid) => ({
+export const changeField = (id, value, /*required,*/ isValid) => ({
     type: LOGIN_CHANGE_FIELDS,
     payload: {
         id,
         value,
-        required,
+        // required,
         isValid
     }
 });
@@ -57,7 +57,7 @@ export const setError = () => ({
 export const getObject = (data) => {
     let obj = {};
     for (let i in data) {
-        console.log(data[i]);
+        // console.log(data[i]);
         obj = {
             ...obj,
             [data[i].id]: data[i].value
