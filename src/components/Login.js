@@ -32,7 +32,9 @@ class Login extends React.Component {
                 onHide={this.handleClose}
                 dialogClassName="modal"
                 aria-labelledby="example-custom-modal-styling-title"
-                centered>
+                centered
+                keyboard={false}
+                backdrop='static'>
                 <Modal.Header className="justify-content-md-center">
                     <Modal.Title>
                         АВТОРИЗАЦИЯ

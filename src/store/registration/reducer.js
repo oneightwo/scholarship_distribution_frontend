@@ -1,13 +1,26 @@
 import {
     REGISTRATION_CHANGE_ALLOW_CHECKBOX,
-    REGISTRATION_CHANGE_FIELDS, REGISTRATION_CHANGE_FILE, REGISTRATION_FIELDS_CHECK_VALIDATION,
+    REGISTRATION_CHANGE_FIELDS,
+    REGISTRATION_CHANGE_FILE,
+    REGISTRATION_END_SUBMIT,
+    REGISTRATION_FIELDS_CHECK_VALIDATION,
     REGISTRATION_LOAD_COURSES_DATA,
-    REGISTRATION_LOAD_SCIENCE_DIRECTIONS_DATA, REGISTRATION_LOAD_UNIVERSITIES_DATA
+    REGISTRATION_LOAD_SCIENCE_DIRECTIONS_DATA,
+    REGISTRATION_LOAD_UNIVERSITIES_DATA,
+    REGISTRATION_START_SUBMIT,
+    REGISTRATION_NOTIFICATION, REGISTRATION_NOTIFICATION_CLOSE
 } from "./actions";
 
 const defaultState = {
-    isAllowed: false,
-    isValid: null,
+    settings: {
+        sending: false,
+        isAllowed: false,
+        isValid: null
+    },
+    notification: {
+        isOk: null,
+        show: false
+    },
     courses: [],
     scienceDirections: [],
     universities: [],
@@ -177,7 +190,8 @@ export const registrationReducer = (state = defaultState, {type, payload}) => {
         case REGISTRATION_CHANGE_FIELDS:
             console.log('payload', payload);
             return {
-                ...state, fields: state.fields.map(i => {
+                ...state,
+                fields: state.fields.map(i => {
                     if (payload.id === i.id) {
                         i.value = payload.value;
                         i.isValid = payload.isValid;
@@ -200,30 +214,93 @@ export const registrationReducer = (state = defaultState, {type, payload}) => {
             };
         case REGISTRATION_CHANGE_ALLOW_CHECKBOX:
             return {
-                ...state, isAllowed: payload
+                ...state, settings: {
+                    ...state.settings,
+                    isAllowed: payload
+                }
             };
         case REGISTRATION_CHANGE_FILE:
             return {
                 ...state, file: {
-                    value: payload.value,
+                    ...state.file,
+                    value: payload.value !== undefined ? payload.value : new File([], ''),
                     isValid: payload.isValid,
                 }
             };
         case REGISTRATION_FIELDS_CHECK_VALIDATION:
             console.log(REGISTRATION_FIELDS_CHECK_VALIDATION);
-            let i = true;
+            let isValid = true;
             return {
-                ...state, fields: state.fields.map(v => {
+                ...state,
+                fields: state.fields.map(v => {
                     if (v.required && !v.isValid) {
                         v.isValid = false;
-                        console.log('i 1=', i);
-                        i = false;
+                        isValid = false;
                         return v;
                     }
-                    console.log('i 2=', i);
                     return v;
                 }),
-                isValid: i
+                file: {
+                    ...state.file,
+                    isValid: state.file.value.name !== '' && state.file.required ? true : isValid = false
+                },
+                settings: {
+                    ...state.settings,
+                    isValid: isValid
+                }
+            };
+        case REGISTRATION_START_SUBMIT:
+            console.log(REGISTRATION_START_SUBMIT);
+            return {
+                ...state, settings: {
+                    ...state.settings,
+                    sending: payload
+                }
+            };
+        case REGISTRATION_END_SUBMIT:
+            console.log(REGISTRATION_END_SUBMIT);
+            return {
+                ...state, settings: {
+                    ...state.settings,
+                    sending: payload
+                }
+            };
+        case REGISTRATION_NOTIFICATION:
+            console.log(REGISTRATION_NOTIFICATION, payload);
+            return {
+                ...state,
+                notification: {
+                    ...state.notification,
+                    isOk: payload.isOk,
+                    show: payload.show
+                }
+            };
+        case REGISTRATION_NOTIFICATION_CLOSE:
+            console.log(REGISTRATION_NOTIFICATION_CLOSE);
+            return {
+                ...state,
+                fields: state.fields.map(i => {
+                    if (payload.isOk === true) {
+                        i.value = '';
+                        i.isValid = null;
+                    }
+                    return i;
+                }),
+                file: {
+                    ...state.file,
+                    value: payload.isOk ? new File([], '') : state.file.value,
+                    isValid: payload.isOk ? null : state.file.isValid
+
+                },
+                settings: {
+                    ...state.settings,
+                    isAllowed: payload.isOk ? false : state.settings.isAllowed
+                },
+                notification: {
+                    ...state.notification,
+                    isOk: null,
+                    show: false
+                }
             };
         default:
             return state;

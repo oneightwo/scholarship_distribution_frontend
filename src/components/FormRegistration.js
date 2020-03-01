@@ -10,6 +10,7 @@ import {
     loadUniversitiesData, setAllowed, submitForm
 } from "../store/registration/actions";
 import store from "../store/store";
+import InputFile from "./base/InputFile";
 
 class FormRegistration extends React.Component {
 
@@ -24,7 +25,8 @@ class FormRegistration extends React.Component {
         const {data, submitForm, checkValidation, isAllowed, file} = this.props;
         if (isAllowed) {
             checkValidation();
-            if (store.getState().registration.isValid && isAllowed) {
+            if (store.getState().registration.settings.isValid && isAllowed) {
+                console.log('FormRegistration');
                 submitForm(data, file);
             }
         }
@@ -36,15 +38,16 @@ class FormRegistration extends React.Component {
     };
 
     validationCriteria = (value) => {
-        return parseInt(value) >= 0 && parseInt(value) <= 5;
+        return parseInt(value) >= 0 && parseInt(value) <= 5 && value.length === 1;
     };
 
     handleCheckbox = (e) => {
         this.props.setAllowed(e.target.checked)
     };
 
-    getClassSubmitButton = () => {
-        return this.props.isAllowed ? 'btn btn-primary col-auto' : 'btn btn-primary col-auto disabled'
+    classSubmitButton = () => {
+        const defaultClass = 'btn btn-primary col-md-auto';
+        return this.props.isAllowed ? defaultClass : defaultClass + ' disabled'
     };
 
     handleChangeFile = (id, value, isValid, required) => {
@@ -56,243 +59,258 @@ class FormRegistration extends React.Component {
         const {
             surname, name, patronymic, university, course, faculty, email, number, scienceDirection, topic,
             c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, courses, scienceDirections, universities,
-            isAllowed
+            isAllowed, file
         } = this.props;
         return (
-            <div className='card m-5'>
-                <div className='card-header'><h5>Регистрация</h5></div>
-                <div className='card-body'>
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-lg-4 mb-3">
-                                <Label value="Фамилия"/>
-                                <Input id="surname"
-                                       placeholder="Иванов"
-                                       onChange={this.onChange}
-                                       value={surname.value}
-                                       required={true}
-                                       isValid={surname.isValid}/>
-                            </div>
-                            <div className="col-lg-4 mb-3">
-                                <Label value="Имя"/>
-                                <Input id="name"
-                                       placeholder="Иван"
-                                       onChange={this.onChange}
-                                       value={name.value}
-                                       required={true}
-                                       isValid={name.isValid}/>
-                            </div>
-                            <div className="col-lg-4 mb-3">
-                                <Label value="Отчество"/>
-                                <Input id="patronymic"
-                                       placeholder="Иванович"
-                                       onChange={this.onChange}
-                                       value={patronymic.value}
-                                       required={true}/>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-lg-6 mb-3">
-                                <Label value="Университет"/>
-                                <Selector id="university"
-                                          listValues={universities}
-                                          onChange={this.onChange}
-                                          required={true}
-                                          isValid={university.isValid}/>
-                            </div>
-                            <div className="col-lg-2 mb-3">
-                                <Label value="Курс"/>
-                                <Selector id="course"
-                                          listValues={courses}
-                                          onChange={this.onChange}
-                                          required={true}
-                                          isValid={course.isValid}/>
-                            </div>
-                            <div className="col-lg-4 mb-3">
-                                <Label value="Факультет"/>
-                                <Input id="faculty"
-                                       placeholder="ФАИТ"
-                                       onChange={this.onChange}
-                                       value={faculty.value}
-                                       required={true}
-                                       isValid={faculty.isValid}/>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-lg-6 mb-3">
-                                <Label value="E-mail"/>
-                                <Input id="email"
-                                       type="email"
-                                       placeholder="ivamov@gmail.com"
-                                       onChange={this.onChange}
-                                       value={email.value}
-                                       required={true}
-                                       isValid={email.isValid}/>
-                            </div>
-                            <div className="col-lg-6 mb-3">
-                                <Label value="Номер телефона"/>
-                                <Input id="number"
-                                       type="phone"
-                                       placeholder="88005553535"
-                                       onChange={this.onChange}
-                                       value={number.value}/>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-lg-4 mb-3">
-                                <Label value="Направление"/>
-                                <Selector id="scienceDirection"
-                                          listValues={scienceDirections}
-                                          onChange={this.onChange}
-                                          required={true}
-                                          isValid={scienceDirection.isValid}/>
-                            </div>
-                            <div className="col-lg-8 mb-3">
-                                <Label value="Тема"/>
-                                <Input id="topic"
-                                       placeholder="Исследование космоса"
-                                       onChange={this.onChange}
-                                       value={topic.value}
-                                       required={true}
-                                       isValid={topic.isValid}/>
-                            </div>
-                        </div>
+            <div className='container-fluid '>
+                <div className='d-flex justify-content-center'>
+                    <div className='col-11 my-5'>
 
-                        <div className="row">
-                            <div className="col-lg-9 mb-3">
-                                <Label value="Критерии"/>
-                                <div className="input-group">
-                                    <Input id="c1"
-                                           placeholder="№1"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c1.value}
-                                           required={true}
-                                           isValid={c1.isValid}/>
-                                    <Input id="c2"
-                                           placeholder="№2"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c2.value}
-                                           required={true}
-                                           isValid={c2.isValid}/>
-                                    <Input id="c3"
-                                           placeholder="№3"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c3.value}
-                                           required={true}
-                                           isValid={c3.isValid}/>
-                                    <Input id="c4"
-                                           placeholder="№4"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c4.value}
-                                           required={true}
-                                           isValid={c4.isValid}/>
-                                    <Input id="c5"
-                                           placeholder="№5"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c5.value}
-                                           required={true}
-                                           isValid={c5.isValid}/>
-                                    <Input id="c6"
-                                           placeholder="№6"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c6.value}
-                                           required={true}
-                                           isValid={c6.isValid}/>
-                                    <Input id="c7"
-                                           placeholder="№7"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c7.value}
-                                           required={true}
-                                           isValid={c7.isValid}/>
-                                    <Input id="c8"
-                                           placeholder="№8"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c8.value}
-                                           required={true}
-                                           isValid={c8.isValid}/>
-                                    <Input id="c9"
-                                           placeholder="№9"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c9.value}
-                                           required={true}
-                                           isValid={c9.isValid}/>
-                                    <Input id="c10"
-                                           placeholder="№10"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c10.value}
-                                           required={true}
-                                           isValid={c10.isValid}/>
-                                    <Input id="c11"
-                                           placeholder="№11"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c11.value}
-                                           required={true}
-                                           isValid={c11.isValid}/>
-                                    <Input id="c12"
-                                           placeholder="№12"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c12.value}
-                                           required={true}
-                                           isValid={c12.isValid}/>
-                                    <Input id="c13"
-                                           placeholder="№13"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c13.value}
-                                           required={true}
-                                           isValid={c13.isValid}/>
-                                    <Input id="c14"
-                                           placeholder="№14"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c14.value}
-                                           required={true}
-                                           isValid={c14.isValid}/>
-                                    <Input id="c15"
-                                           placeholder="№15"
-                                           validation={this.validationCriteria}
-                                           onChange={this.onChange}
-                                           value={c15.value}
-                                           required={true}
-                                           isValid={c15.isValid}/>
+                        <div className='card'>
+                            <div className='card-header'><h5>Регистрация</h5></div>
+                            <div className='card-body'>
+                                <div className="container-fluid">
+                                    <div className="row">
+                                        <div className="col-lg-4 mb-3">
+                                            <Label value="Фамилия"/>
+                                            <Input id="surname"
+                                                   placeholder="Иванов"
+                                                   onChange={this.onChange}
+                                                   value={surname.value}
+                                                   required={true}
+                                                   isValid={surname.isValid}/>
+                                        </div>
+                                        <div className="col-lg-4 mb-3">
+                                            <Label value="Имя"/>
+                                            <Input id="name"
+                                                   placeholder="Иван"
+                                                   onChange={this.onChange}
+                                                   value={name.value}
+                                                   required={true}
+                                                   isValid={name.isValid}/>
+                                        </div>
+                                        <div className="col-lg-4 mb-3">
+                                            <Label value="Отчество"/>
+                                            <Input id="patronymic"
+                                                   placeholder="Иванович"
+                                                   onChange={this.onChange}
+                                                   value={patronymic.value}
+                                                   required={true}/>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-lg-6 mb-3">
+                                            <Label value="Университет"/>
+                                            <Selector id="university"
+                                                      listValues={universities}
+                                                      onChange={this.onChange}
+                                                      required={true}
+                                                      value={university.value}
+                                                      isValid={university.isValid}/>
+                                        </div>
+                                        <div className="col-lg-2 mb-3">
+                                            <Label value="Курс"/>
+                                            <Selector id="course"
+                                                      listValues={courses}
+                                                      onChange={this.onChange}
+                                                      required={true}
+                                                      value={course.value}
+                                                      isValid={course.isValid}/>
+                                        </div>
+                                        <div className="col-lg-4 mb-3">
+                                            <Label value="Факультет"/>
+                                            <Input id="faculty"
+                                                   placeholder="ФАИТ"
+                                                   onChange={this.onChange}
+                                                   value={faculty.value}
+                                                   required={true}
+                                                   isValid={faculty.isValid}/>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-lg-6 mb-3">
+                                            <Label value="E-mail"/>
+                                            <Input id="email"
+                                                   type="email"
+                                                   placeholder="ivamov@gmail.com"
+                                                   onChange={this.onChange}
+                                                   value={email.value}
+                                                   required={true}
+                                                   isValid={email.isValid}/>
+                                        </div>
+                                        <div className="col-lg-6 mb-3">
+                                            <Label value="Номер телефона"/>
+                                            <Input id="number"
+                                                   type="phone"
+                                                   placeholder="88005553535"
+                                                   onChange={this.onChange}
+                                                   value={number.value}/>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-lg-4 mb-3">
+                                            <Label value="Направление"/>
+                                            <Selector id="scienceDirection"
+                                                      listValues={scienceDirections}
+                                                      onChange={this.onChange}
+                                                      required={true}
+                                                      value={scienceDirection.value}
+                                                      isValid={scienceDirection.isValid}/>
+                                        </div>
+                                        <div className="col-lg-8 mb-3">
+                                            <Label value="Тема"/>
+                                            <Input id="topic"
+                                                   placeholder="Исследование космоса"
+                                                   onChange={this.onChange}
+                                                   value={topic.value}
+                                                   required={true}
+                                                   isValid={topic.isValid}/>
+                                        </div>
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="col-lg-9 mb-3">
+                                            <Label value="Критерии"/>
+                                            <div className="input-group">
+                                                <Input id="c1"
+                                                       placeholder="№1"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c1.value}
+                                                       required={true}
+                                                       isValid={c1.isValid}/>
+                                                <Input id="c2"
+                                                       placeholder="№2"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c2.value}
+                                                       required={true}
+                                                       isValid={c2.isValid}/>
+                                                <Input id="c3"
+                                                       placeholder="№3"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c3.value}
+                                                       required={true}
+                                                       isValid={c3.isValid}/>
+                                                <Input id="c4"
+                                                       placeholder="№4"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c4.value}
+                                                       required={true}
+                                                       isValid={c4.isValid}/>
+                                                <Input id="c5"
+                                                       placeholder="№5"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c5.value}
+                                                       required={true}
+                                                       isValid={c5.isValid}/>
+                                                <Input id="c6"
+                                                       placeholder="№6"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c6.value}
+                                                       required={true}
+                                                       isValid={c6.isValid}/>
+                                                <Input id="c7"
+                                                       placeholder="№7"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c7.value}
+                                                       required={true}
+                                                       isValid={c7.isValid}/>
+                                                <Input id="c8"
+                                                       placeholder="№8"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c8.value}
+                                                       required={true}
+                                                       isValid={c8.isValid}/>
+                                                <Input id="c9"
+                                                       placeholder="№9"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c9.value}
+                                                       required={true}
+                                                       isValid={c9.isValid}/>
+                                                <Input id="c10"
+                                                       placeholder="№10"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c10.value}
+                                                       required={true}
+                                                       isValid={c10.isValid}/>
+                                                <Input id="c11"
+                                                       placeholder="№11"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c11.value}
+                                                       required={true}
+                                                       isValid={c11.isValid}/>
+                                                <Input id="c12"
+                                                       placeholder="№12"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c12.value}
+                                                       required={true}
+                                                       isValid={c12.isValid}/>
+                                                <Input id="c13"
+                                                       placeholder="№13"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c13.value}
+                                                       required={true}
+                                                       isValid={c13.isValid}/>
+                                                <Input id="c14"
+                                                       placeholder="№14"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c14.value}
+                                                       required={true}
+                                                       isValid={c14.isValid}/>
+                                                <Input id="c15"
+                                                       placeholder="№15"
+                                                       validation={this.validationCriteria}
+                                                       onChange={this.onChange}
+                                                       value={c15.value}
+                                                       required={true}
+                                                       isValid={c15.isValid}/>
+                                            </div>
+                                        </div>
+                                        <div className='col-lg-3 mb-3'>
+                                            <Label value='Пояснительная записка'/>
+                                            <InputFile id='file'
+                                                       type='file'
+                                                       onChange={this.handleChangeFile}
+                                                       value={file.value}
+                                                       required={true}
+                                                       isValid={file.isValid}/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className='col-lg-3 mb-3'>
-                                <Label value='Пояснительная записка'/>
-                                <input type="file"
-                                       onChange={(e) => this.handleChangeFile('file', e.target.files[0], true, true)}/>
-                                {/*<div className='custom-file'>*/}
-                                {/*    <Label value='Пояснительная записка'/>*/}
-                                {/*    <input type="file" className="custom-file-input" id="customFile"/>*/}
-                                {/*    <label className="custom-file-label" htmlFor="customFile">Выберите файл</label>*/}
-                                {/*</div>*/}
+                            <div className='card-footer'>
+                                <div className='container-fluid'>
+                                    <div className='row justify-content-between'>
+                                        <div className='col-md-auto align-self-center'>
+                                            <div className="custom-control custom-checkbox">
+                                                <input id="customCheck1" type="checkbox"
+                                                       className="custom-control-input"
+                                                       checked={isAllowed} onChange={this.handleCheckbox}/>
+                                                <label className="custom-control-label" htmlFor="customCheck1">Разрешаю
+                                                    обработку
+                                                    своих
+                                                    персональных данных</label>
+                                            </div>
+                                        </div>
+                                        <div className={this.classSubmitButton()} onClick={this.handleSubmit}>Отправить
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div className='card-footer'>
-                    <div className='row'>
-                        <div className='col-11 align-self-center'>
-                            <div className="custom-control custom-checkbox">
-                                <input id="customCheck1" type="checkbox" className="custom-control-input"
-                                       checked={isAllowed} onChange={this.handleCheckbox}/>
-                                <label className="custom-control-label" htmlFor="customCheck1">Разрешаю обработку своих
-                                    персональных данных</label>
-                            </div>
-                        </div>
-                        <div className={this.getClassSubmitButton()} onClick={this.handleSubmit}>Отправить</div>
                     </div>
                 </div>
             </div>
@@ -334,8 +352,8 @@ const mapStateToProps = state => {
         scienceDirections: state.registration.scienceDirections,
         universities: state.registration.universities,
 
-        isValid: state.registration.isValid,
-        isAllowed: state.registration.isAllowed,
+        isOk: state.registration.notification.isOk,
+        isAllowed: state.registration.settings.isAllowed,
         all: state.registration
     }
 };

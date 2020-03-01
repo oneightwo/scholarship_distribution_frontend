@@ -12,7 +12,10 @@ export const REGISTRATION_LOAD_UNIVERSITIES_DATA = 'REGISTRATION_LOAD_UNIVERSITI
 export const REGISTRATION_LOAD_SCIENCE_DIRECTIONS_DATA = 'REGISTRATION_LOAD_SCIENCE_DIRECTIONS_DATA';
 export const REGISTRATION_CHANGE_ALLOW_CHECKBOX = 'REGISTRATION_CHANGE_ALLOW_CHECKBOX';
 export const REGISTRATION_CHANGE_FILE = 'REGISTRATION_CHANGE_FILE';
-export const REGISTRATION_SUBMIT = 'REGISTRATION_SUBMIT';
+export const REGISTRATION_NOTIFICATION = 'REGISTRATION_NOTIFICATION';
+export const REGISTRATION_NOTIFICATION_CLOSE = 'REGISTRATION_NOTIFICATION_CLOSE';
+export const REGISTRATION_START_SUBMIT = 'REGISTRATION_START_SUBMIT';
+export const REGISTRATION_END_SUBMIT = 'REGISTRATION_END_SUBMIT';
 export const REGISTRATION_FIELDS_CHECK_VALIDATION = 'REGISTRATION_FIELDS_CHECK_VALIDATION';
 
 export const changeField = (id, value, required, isValid) => ({
@@ -69,25 +72,69 @@ export const loadScienceDirectionsData = () => {
 };
 
 export const submitForm = (data, file) => {
-    return (dispatch) => submitFormRegistration(getObject(data))
-        .then(res => {
-            console.log(res);
-            Object.defineProperty(file.value, 'name', {
-                writable: true,
-                value: res.id + '.jpg'
+    console.log('submitForm', data, file);
+    return (dispatch) => {
+        dispatch(startSubmit());
+        submitFormRegistration(getObject(data))
+            .then(res => {
+                if (res.error) {
+                    dispatch(notification(false, true));
+                } else {
+                    console.log(res);
+                    Object.defineProperty(file.value, 'name', {
+                        writable: true,
+                        value: res.id + '.pdf'
+                    });
+                    submitFile(file.value)
+                        .then(res => {
+                                if (res.error) {
+                                    dispatch(notification(false, true));
+                                } else {
+                                    dispatch(endSubmit());
+                                    dispatch(notification(true, true));
+                                }
+                            }
+                        )
+                        .catch((e) => {
+                            dispatch(endSubmit());
+                            dispatch(notification(false, true));
+                        });
+                }
+            })
+            .catch((e) => {
+                dispatch(endSubmit());
+                dispatch(notification(false, true));
             });
-            console.log('newFile', file.value);
-            submitFile(file.value)
-                .then(res =>
-                    dispatch(submit())
-                );
-        });
+    }
 };
 
-const submit = () => ({
-    type: REGISTRATION_SUBMIT,
-    payload: {}
+export const startSubmit = () => ({
+    type: REGISTRATION_START_SUBMIT,
+    payload: true
 });
+
+export const endSubmit = () => ({
+    type: REGISTRATION_END_SUBMIT,
+    payload: false
+});
+
+export const notification = (isOk = null, show) => ({
+    type: REGISTRATION_NOTIFICATION,
+    payload: {
+        isOk,
+        show
+    }
+});
+
+export const closeNotification = (isOk) => ({
+    type: REGISTRATION_NOTIFICATION_CLOSE,
+    payload: {
+        isOk
+    }
+});
+
+
+
 
 export const getObject = (data) => {
     let obj = {};

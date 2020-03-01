@@ -8,8 +8,7 @@ export default class Selector extends Component {
 
     static propTypes = {
         id: PropTypes.string.isRequired,
-        // value: PropTypes.object,
-        defaultValue: PropTypes.object,
+        value: PropTypes.string,
         listValues: PropTypes.array,
         isValid: PropTypes.bool,
         validation: PropTypes.func,
@@ -19,9 +18,8 @@ export default class Selector extends Component {
 
     static defaultProps = {
         id: '',
-        // value: defaultItem,
+        value: defaultItem,
         listValues: [defaultItem],
-        defaultValue: defaultItem,
         isValid: null,
         validation: value => {
             return value !== defaultItem.name
@@ -56,8 +54,9 @@ export default class Selector extends Component {
     };
 
     render() {
-        const {id, defaultValue, listValues, isValid, onChange, required} = this.props;
-        // console.log(listValues);
+        const {id, listValues, isValid, onChange, required, value} = this.props;
+
+        console.log('Selector', value);
         return (
             <select id={id}
                     className={this.className(isValid)}
@@ -66,8 +65,7 @@ export default class Selector extends Component {
                     }}>
                 <option key={defaultItem.id}>{defaultItem.name}</option>
                 {listValues.map((v) =>
-                    <option key={v.id}>{v.name}</option>
-                    // <option key={v.id} selected={v.name === defaultValue.name ? 'selected' : ''}>{v.name}</option>
+                    <option key={v.id} selected={v.name === value.name ? 'selected' : ''}>{v.name}</option>
                 )}
             </select>
         );

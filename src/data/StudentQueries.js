@@ -1,4 +1,5 @@
 import {PREFIX_URL_API} from "./Constants";
+import {startSubmit} from "../store/registration/actions";
 
 export const getScienceDirection = async () => {
     return fetch(PREFIX_URL_API + "students/fields/science_directions")
