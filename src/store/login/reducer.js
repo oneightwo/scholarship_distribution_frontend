@@ -1,16 +1,17 @@
 import {
+    LOGIN_AUTHORIZATION_ERROR,
+    LOGIN_AUTHORIZATION_SUCCESS,
     LOGIN_CHANGE_FIELDS,
     LOGIN_FIELDS_CHECK_VALIDATION,
-    LOGIN_AUTHORIZATION_SUCCESS,
-    LOGIN_FORM_OPEN,
-    LOGIN_FORM_CLOSE, LOGIN_AUTHORIZATION_ERROR
+    LOGIN_FORM_CLOSE,
+    LOGIN_FORM_OPEN
 } from "./actions";
-import {ACTIVE_USER} from "../../data/Constants";
 
 const defaultState = {
+    // isAdminActive: null,
     settings: {
         isValid: null,
-        isActive: false
+        show: false
     },
     fields: [
         {
@@ -36,7 +37,7 @@ export const loginReducer = (state = defaultState, {type, payload}) => {
                 ...state, fields: state.fields.map(i => {
                     if (payload.id === i.id) {
                         i.value = payload.value;
-                        i.isValid = payload.isValid;
+                        i.show = payload.show;
                     }
                     return i;
                 })
@@ -45,18 +46,20 @@ export const loginReducer = (state = defaultState, {type, payload}) => {
             return {
                 ...state, fields: state.fields.map(v => {
                     if (v.required && !v.isValid) {
-                        v.isValid = false;
+                        v.show = false;
                         return v;
                     }
                     return v;
                 })
             };
         case LOGIN_AUTHORIZATION_SUCCESS:
-            // console.log(payload);
-            localStorage.setItem(ACTIVE_USER, JSON.stringify(payload));
+            console.log(LOGIN_AUTHORIZATION_SUCCESS);
             return {
                 ...state,
-                settings: {isActive: false},
+                // isAdminActive: true,
+                settings: {
+                    show: false
+                },
                 fields: state.fields.map(i => {
                     i.isValid = null;
                     i.value = '';
@@ -73,21 +76,29 @@ export const loginReducer = (state = defaultState, {type, payload}) => {
                 })
             };
         case LOGIN_FORM_OPEN:
-            // console.log(LOGIN_FORM_OPEN);
             return {
                 ...state,
-                settings: {isActive: true}
+                settings: {
+                    show: true
+                }
             };
         case LOGIN_FORM_CLOSE:
             return {
                 ...state,
-                settings: {isActive: false},
+                settings: {
+                    show: false
+                },
                 fields: state.fields.map(i => {
                     i.isValid = null;
                     i.value = '';
                     return i;
                 })
             };
+        // case LOGOFF:
+        //     return {
+        //         ...state,
+        //         isAdminActive: null
+        //     };
 
         default:
             return state;

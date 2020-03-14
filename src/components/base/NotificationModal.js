@@ -1,13 +1,13 @@
 import React from 'react';
 import {Container, Modal} from "react-bootstrap";
 import {connect} from "react-redux";
-import {closeNotification} from "../../store/registration/actions";
+import {hideNotificationModal} from "../../store/notificationModal/actions";
 
-class TextModal extends React.Component {
+class NotificationModal extends React.Component {
 
     handleClick = () => {
-        const {closeNotification, isOk} = this.props;
-        closeNotification(isOk);
+        const {hideAlert} = this.props;
+        hideAlert();
     };
 
     className = (isOk) => {
@@ -16,8 +16,8 @@ class TextModal extends React.Component {
     };
 
     render() {
-        const {show, isOk} = this.props;
-        console.log('SUCCESS....', show, isOk);
+        const {show, typeIsOk, text} = this.props;
+        console.log('SUCCESS....', show, typeIsOk);
         return (
             <Modal
                 show={show}
@@ -27,13 +27,13 @@ class TextModal extends React.Component {
                 animation={false}>
                 <Modal.Body>
                     <Container>
-                        {isOk ? 'Регистрация прошла успешно' : 'Произошла ошибка'}
+                        {text}
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
                     <div className='container-fluid'>
                         <div className='row justify-content-end'>
-                            <button className={this.className(isOk)} onClick={this.handleClick}>
+                            <button className={this.className(typeIsOk)} onClick={this.handleClick}>
                                 Ок
                             </button>
                         </div>
@@ -46,17 +46,18 @@ class TextModal extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.registration,
-        isOk: state.registration.notification.isOk,
-        show: state.registration.notification.show
+        data: state.alert,
+        typeIsOk: state.alert.typeIsOk,
+        show: state.alert.show,
+        text: state.alert.text
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        closeNotification: (isOk) => dispatch(closeNotification(isOk))
+        hideAlert: (isOk) => dispatch(hideNotificationModal(isOk))
     }
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(TextModal);
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationModal);

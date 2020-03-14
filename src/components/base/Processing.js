@@ -3,19 +3,20 @@ import PropTypes from 'prop-types';
 import {Container, Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 
-class Loading extends React.Component {
+class Processing extends React.Component {
 
     static propTypes = {
-        show: PropTypes.bool
+        show: PropTypes.bool,
+        text: PropTypes.string
     };
 
     static defaultProps = {
-        show: null
+        show: false,
+        text: ''
     };
 
     render() {
-        const {show} = this.props;
-        console.log('LOADING....');
+        const {show, text} = this.props;
         return (
             <Modal
                 show={show}
@@ -30,7 +31,7 @@ class Loading extends React.Component {
                     <Container>
                         <div className='row'>
                             <div className="spinner-border text-primary mx-3" role="status"/>
-                            <h4 className='text-primary mx-3'>Отправка...</h4>
+                            <h4 className='text-primary mx-3'>{text}</h4>
                         </div>
                     </Container>
                 </Modal.Body>
@@ -40,7 +41,8 @@ class Loading extends React.Component {
 }
 const mapStateToProps = state => {
     return {
-        show: state.registration.settings.sending
+        show: state.processing.show,
+        text: state.processing.text
     }
 };
 
@@ -49,4 +51,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Loading);
+export default connect(mapStateToProps, mapDispatchToProps)(Processing);

@@ -1,9 +1,9 @@
 import React from "react"
 import Label from "./base/Label";
 import Input from "./base/Input";
-import {Modal, Button, Row, Container} from "react-bootstrap";
+import {Button, Container, Modal, Row} from "react-bootstrap";
 import {connect} from 'react-redux';
-import {changeField, checkValidation, authorization, closeForm} from "../store/login/actions";
+import {authorization, changeField, checkValidation, closeForm} from "../store/login/actions";
 import {ACTIVE_USER} from "../data/Constants";
 
 class Login extends React.Component {
@@ -15,23 +15,24 @@ class Login extends React.Component {
     };
 
     handleClose = () => {
+        localStorage.removeItem(ACTIVE_USER);
         this.props.closeForm()
     };
 
-    onChange = ({target: {id, value}}, isValid, required) => {
+    onChange = (id, value, isValid, required) => {
         // console.log(value);
         this.props.changeLogin(id, value, required, isValid);
     };
 
     render() {
-        const {isActive, username, password} = this.props;
+        const {show, username, password} = this.props;
         // console.log(this.props.username);
         return (
             <Modal
-                show={isActive}
+                show={show}
                 onHide={this.handleClose}
                 dialogClassName="modal"
-                aria-labelledby="example-custom-modal-styling-title"
+                // aria-labelledby="example-custom-notificationModal-styling-title"
                 centered
                 keyboard={false}
                 backdrop='static'>
@@ -81,7 +82,7 @@ const mapStateToProps = state => {
         data: state.login.fields,
         username: state.login.fields.filter(v => v.id === 'username')[0],
         password: state.login.fields.filter(v => v.id === 'password')[0],
-        isActive: state.login.settings.isActive
+        show: state.login.settings.show
     }
 };
 
@@ -93,8 +94,5 @@ const mapDispatchToProps = (dispatch) => {
         closeForm: () => dispatch(closeForm())
     }
 };
-// const mapDispatchToProps = dispatch => {
-//     return {changeLogin, checkValidation, submitLogin: () => dispatch(submitLogin())};
-// };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

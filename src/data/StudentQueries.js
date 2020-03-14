@@ -16,6 +16,11 @@ export const getCourse = async () => {
         .then(response => response.json());
 };
 
+export const getSettings = async () => {
+    return fetch(PREFIX_URL_API + "students/settings")
+        .then(response => response.json());
+};
+
 export const submitFormRegistration = async (data) => {
     console.log('submitFormRegistration', data);
     return fetch(PREFIX_URL_API + 'students/registration', {

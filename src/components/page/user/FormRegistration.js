@@ -1,16 +1,14 @@
 import React from "react"
 import {connect} from 'react-redux';
-import Input from "./base/Input";
-import Label from "./base/Label";
-import Selector from "./base/Selector";
+import Input from "../../base/Input";
+import Label from "../../base/Label";
+import Selector from "../../base/Selector";
 import {
-    changeField, changeFile, checkValidation,
-    loadCoursesData,
-    loadScienceDirectionsData,
-    loadUniversitiesData, setAllowed, submitForm
-} from "../store/registration/actions";
-import store from "../store/store";
-import InputFile from "./base/InputFile";
+    changeField, changeFile, checkValidation, setAllowed, submitForm
+} from "../../../store/registration/actions";
+import store from "../../../store/store";
+import InputFile from "../../base/InputFile";
+import {loadCoursesData, loadScienceDirectionsData, loadUniversitiesData} from "../../../store/data/actions";
 
 class FormRegistration extends React.Component {
 
@@ -57,7 +55,7 @@ class FormRegistration extends React.Component {
 
     render() {
         const {
-            surname, name, patronymic, university, course, faculty, email, number, scienceDirection, topic,
+            surname, name, patronymic, university, course, faculty, email, phone, scienceDirection, topic,
             c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, courses, scienceDirections, universities,
             isAllowed, file
         } = this.props;
@@ -140,11 +138,11 @@ class FormRegistration extends React.Component {
                                         </div>
                                         <div className="col-lg-6 mb-3">
                                             <Label value="Номер телефона"/>
-                                            <Input id="number"
+                                            <Input id="phone"
                                                    type="phone"
                                                    placeholder="88005553535"
                                                    onChange={this.onChange}
-                                                   value={number.value}/>
+                                                   value={phone.value}/>
                                         </div>
                                     </div>
                                     <div className="row">
@@ -328,7 +326,7 @@ const mapStateToProps = state => {
         course: state.registration.fields.filter(v => v.id === 'course')[0],
         faculty: state.registration.fields.filter(v => v.id === 'faculty')[0],
         email: state.registration.fields.filter(v => v.id === 'email')[0],
-        number: state.registration.fields.filter(v => v.id === 'number')[0],
+        phone: state.registration.fields.filter(v => v.id === 'phone')[0],
         scienceDirection: state.registration.fields.filter(v => v.id === 'scienceDirection')[0],
         topic: state.registration.fields.filter(v => v.id === 'topic')[0],
         c1: state.registration.fields.filter(v => v.id === 'c1')[0],
@@ -348,11 +346,10 @@ const mapStateToProps = state => {
         c15: state.registration.fields.filter(v => v.id === 'c15')[0],
         file: state.registration.file,
 
-        courses: state.registration.courses,
-        scienceDirections: state.registration.scienceDirections,
-        universities: state.registration.universities,
+        courses: state.data.courses,
+        scienceDirections: state.data.scienceDirections,
+        universities: state.data.universities,
 
-        isOk: state.registration.notification.isOk,
         isAllowed: state.registration.settings.isAllowed,
         all: state.registration
     }

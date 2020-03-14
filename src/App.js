@@ -2,25 +2,35 @@ import React from 'react';
 import {Provider} from "react-redux";
 import {BrowserRouter} from "react-router-dom";
 import {Route, Switch} from "react-router";
-import Admin from "./components/Admin";
-import NavigationHeader from "./components/NavigationHeader";
 import Login from "./components/Login";
-import FormRegistration from "./components/FormRegistration";
-import Loading from "./components/base/Loading";
-import TextModal from "./components/base/TextModal";
+import FormRegistration from "./components/page/user/FormRegistration";
+import Loading from "./components/base/Processing";
+import TextModal from "./components/base/NotificationModal";
+import NavigationHeaderContainer from "./containers/NavigationHeaderContainer";
+import Main from "./components/page/admin/Main";
+import Participants from "./components/page/admin/Participants";
+import Reports from "./components/page/admin/Reports";
+import History from "./components/page/admin/History";
+import EditStudentModal from "./components/page/admin/EditStudentModal";
 
 const App = ({store}) => (
     <Provider store={store}>
-            <BrowserRouter>
-                <NavigationHeader/>
+        <BrowserRouter>
+            <NavigationHeaderContainer/>
+            <div style={{ marginTop: "56px" }}>
                 <Switch>
-                    <Route exact path='/' component={FormRegistration}/>
-                    <Route path='/admin' component={Admin}/>
+                    <Route exact path='/registration' component={FormRegistration}/>
+                    <Route path='/main' component={Main}/>
+                    <Route path='/participants' component={Participants}/>
+                    <Route path='/reports' component={Reports}/>
+                    <Route path='/history' component={History}/>
                 </Switch>
-                <Login/>
-                <Loading/>
-                <TextModal/>
-            </BrowserRouter>
+            </div>
+            <Login/>
+            <Loading/>
+            <TextModal/>
+            <EditStudentModal/>
+        </BrowserRouter>
     </Provider>
 );
 

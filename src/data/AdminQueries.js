@@ -1,57 +1,132 @@
-import {setUser} from "../store/login/actions";
-import {ACTIVE_USER} from "./Constants";
+import {ACTIVE_USER, OAUTH2_URL, PREFIX_URL_ADMIN} from "./Constants";
+import {student} from "../entity/Student";
 
-// export const fetchWithToken = (url, option) => {
-//
-//     const loginUrl = '/login'; // url страницы для авторизации
-//     let tokenData = null; // объявляем локальную переменную tokenData
-//
-//     if (localStorage.getItem(ACTIVE_USER)) { // если в sessionStorage присутствует tokenData, то берем её
-//         tokenData = JSON.parse(localStorage.getItem(ACTIVE_USER));
-//     } else {
-//         return window.location.replace(loginUrl); // если токен отсутствует, то перенаправляем пользователя на страницу авторизации
-//     }
-//
-//     if (!options.headers) { // если в запросе отсутствует headers, то задаем их
-//         options.headers = {};
-//     }
-//
-//     if (tokenData) {
-//         if (Date.now() >= tokenData.expires_in * 1000) { // проверяем не истек ли срок жизни токена
-//             try {
-//                 const newToken = await refreshToken(tokenData.refresh_token); // если истек, то обновляем токен с помощью refresh_token
-//                 saveToken(newToken);
-//             } catch () { // если тут что-то пошло не так, то перенаправляем пользователя на страницу авторизации
-//                 return  window.location.replace(loginUrl);
-//             }
-//         }
-//
-//         options.headers.Authorization = `Bearer ${tokenData.token}`; // добавляем токен в headers запроса
-//     }
-//
-//     return fetch(url, options); // возвращаем изначальную функцию, но уже с валидным токеном в headers
-// };
+export const tokens = async ({username, password}) => {
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    myHeaders.append("Authorization", "Basic ZGV2Z2xhbi1jbGllbnQ6ZGV2Z2xhbi1zZWNyZXQ=");
 
-export const getTokens = async ({username, password}) => {
-    // console.log(username, password);
-    let client_id = 'devglan-client';
-    let client_secret = 'devglan-secret';
-    const url = 'oauth/token';
-    return fetch(url, {
+    let urlencoded = new URLSearchParams();
+    urlencoded.append("username", username);
+    urlencoded.append("password", password);
+    urlencoded.append("grant_type", "password");
+
+    let requestOptions = {
         method: 'POST',
-        headers: new Headers({
-            // "Authorization": `Basic ${encode(`${username2}:${password2}`)}`,
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'client_id': client_id,
-            'client_secret': client_secret,
-            'grant_type': 'password'
-        }),
-        body: 'grant_type=password&username=' + username + '&password=' + password,
-        mode: 'no-cors'
-    })
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+    };
+
+    return fetch(OAUTH2_URL, requestOptions)
         .then(response => response.json())
         .then(user => {
             console.log(user);
             return user;
         });
+};
+
+const updateToken = async (activeUser) => {
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    myHeaders.append("Authorization", "Basic ZGV2Z2xhbi1jbGllbnQ6ZGV2Z2xhbi1zZWNyZXQ=");
+    let urlencoded = new URLSearchParams();
+    urlencoded.append("grant_type", "refresh_token");
+    urlencoded.append("refresh_token", activeUser.refresh_token);
+    let requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded
+    };
+    return fetch(OAUTH2_URL, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            // console.log('in update token', data);
+            return data;
+        })
+        .catch(error => console.log('error', error));
+};
+
+export const token = async () => {
+    let activeUser = JSON.parse(localStorage.getItem(ACTIVE_USER));
+    console.log('token activeUser', activeUser);
+    console.log('token activeUser.endDate > Date.now()', activeUser.endDate, Date.now(),activeUser.endDate > Date.now());
+    if (activeUser.endDate < Date.now()) {
+        return updateToken(activeUser)
+            .then(user => {
+                user = {
+                    ...user,
+                    endDate: Date.now() + user.expires_in * 1000
+                };
+                // console.log('updateToken 1 (for)', user);
+                localStorage.setItem(ACTIVE_USER, JSON.stringify(user));
+                return user.access_token;
+            });
+    } else {
+        // console.log('else access_token', activeUser.access_token);
+        return activeUser.access_token;
+    }
+};
+
+export const changeSettings = (token, data) => {
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "bearer " + token);
+    myHeaders.append("Content-Type", "application/json");
+
+    let raw = JSON.stringify({"id": 1, "activeRegistration": data});
+
+    let requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw
+    };
+
+    return fetch(PREFIX_URL_ADMIN + 'settings', requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            return result
+        })
+        .catch(error => console.log('error', error));
+};
+
+export const changeStudent = (token, data) => {
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "bearer " + token);
+    myHeaders.append("Content-Type", "application/json");
+
+    let raw = JSON.stringify(data);
+
+    let requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw
+    };
+
+    return fetch(PREFIX_URL_ADMIN + 'students/' + data.id, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            return result
+        })
+        .catch(error => console.log('error', error));
+};
+
+export const getCurrentParticipants = (token) => {
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "bearer " + token);
+    myHeaders.append("Content-Type", "application/json");
+
+    let requestOptions = {
+        method: 'GET',
+        headers: myHeaders
+    };
+
+    return fetch(PREFIX_URL_ADMIN + '/students/current', requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            // console.log(result);
+            return result
+        })
+        .catch(error => console.log('error', error));
 };

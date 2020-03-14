@@ -2,13 +2,11 @@ import {
     REGISTRATION_CHANGE_ALLOW_CHECKBOX,
     REGISTRATION_CHANGE_FIELDS,
     REGISTRATION_CHANGE_FILE,
-    REGISTRATION_END_SUBMIT,
+    REGISTRATION_CLEAR_FORM,
     REGISTRATION_FIELDS_CHECK_VALIDATION,
     REGISTRATION_LOAD_COURSES_DATA,
     REGISTRATION_LOAD_SCIENCE_DIRECTIONS_DATA,
-    REGISTRATION_LOAD_UNIVERSITIES_DATA,
-    REGISTRATION_START_SUBMIT,
-    REGISTRATION_NOTIFICATION, REGISTRATION_NOTIFICATION_CLOSE
+    REGISTRATION_LOAD_UNIVERSITIES_DATA
 } from "./actions";
 
 const defaultState = {
@@ -17,13 +15,9 @@ const defaultState = {
         isAllowed: false,
         isValid: null
     },
-    notification: {
-        isOk: null,
-        show: false
-    },
-    courses: [],
-    scienceDirections: [],
-    universities: [],
+    // courses: [],
+    // scienceDirections: [],
+    // universities: [],
     file: {
         id: 'file',
         value: new File([], ''),
@@ -74,7 +68,7 @@ const defaultState = {
             isValid: null
         },
         {
-            id: 'number',
+            id: 'phone',
             value: '',
             required: false,
             isValid: null
@@ -199,19 +193,6 @@ export const registrationReducer = (state = defaultState, {type, payload}) => {
                     return i;
                 })
             };
-        case REGISTRATION_LOAD_COURSES_DATA:
-            console.log('->' + REGISTRATION_LOAD_COURSES_DATA + '<-');
-            return {
-                ...state, courses: payload
-            };
-        case REGISTRATION_LOAD_SCIENCE_DIRECTIONS_DATA:
-            return {
-                ...state, scienceDirections: payload
-            };
-        case REGISTRATION_LOAD_UNIVERSITIES_DATA:
-            return {
-                ...state, universities: payload
-            };
         case REGISTRATION_CHANGE_ALLOW_CHECKBOX:
             return {
                 ...state, settings: {
@@ -249,57 +230,24 @@ export const registrationReducer = (state = defaultState, {type, payload}) => {
                     isValid: isValid
                 }
             };
-        case REGISTRATION_START_SUBMIT:
-            console.log(REGISTRATION_START_SUBMIT);
-            return {
-                ...state, settings: {
-                    ...state.settings,
-                    sending: payload
-                }
-            };
-        case REGISTRATION_END_SUBMIT:
-            console.log(REGISTRATION_END_SUBMIT);
-            return {
-                ...state, settings: {
-                    ...state.settings,
-                    sending: payload
-                }
-            };
-        case REGISTRATION_NOTIFICATION:
-            console.log(REGISTRATION_NOTIFICATION, payload);
-            return {
-                ...state,
-                notification: {
-                    ...state.notification,
-                    isOk: payload.isOk,
-                    show: payload.show
-                }
-            };
-        case REGISTRATION_NOTIFICATION_CLOSE:
-            console.log(REGISTRATION_NOTIFICATION_CLOSE);
+        case REGISTRATION_CLEAR_FORM:
+            console.log(REGISTRATION_CLEAR_FORM);
             return {
                 ...state,
                 fields: state.fields.map(i => {
-                    if (payload.isOk === true) {
-                        i.value = '';
-                        i.isValid = null;
-                    }
+                    i.value = '';
+                    i.isValid = null;
                     return i;
                 }),
                 file: {
                     ...state.file,
-                    value: payload.isOk ? new File([], '') : state.file.value,
-                    isValid: payload.isOk ? null : state.file.isValid
+                    value: new File([], ''),
+                    isValid: null
 
                 },
                 settings: {
                     ...state.settings,
-                    isAllowed: payload.isOk ? false : state.settings.isAllowed
-                },
-                notification: {
-                    ...state.notification,
-                    isOk: null,
-                    show: false
+                    isAllowed: false
                 }
             };
         default:
