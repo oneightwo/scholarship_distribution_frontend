@@ -1,5 +1,5 @@
 import {loadCoursesData, loadScienceDirectionsData, loadUniversitiesData} from "../data/actions";
-import {changeStudent, token} from "../../data/AdminQueries";
+import {changeStudent, deleteStudent, token} from "../../data/AdminQueries";
 import {showNotificationModal} from "../notificationModal/actions";
 import {MSG_ERROR_SEND_FORM_REGISTRATION} from "../../data/Constants";
 import {loadParticipants} from "../participants/actions";
@@ -41,7 +41,7 @@ export const saveEditStudent = (student) => {
                 changeStudent(token, getObject(student))
                     .then(res => {
                         if (res.error) {
-                            showNotificationModal(false, MSG_ERROR_SEND_FORM_REGISTRATION);
+                            dispatch(showNotificationModal(false, MSG_ERROR_SEND_FORM_REGISTRATION));
                         } else {
                             dispatch(setEditStudent());
                             dispatch(loadParticipants());
@@ -50,6 +50,25 @@ export const saveEditStudent = (student) => {
             })
     }
 };
+
+export const deleteEditStudent = (student) => {
+    return dispatch => {
+        token()
+            .then(token => {
+                deleteStudent(token, getObject(student))
+                    .then(res => {
+                        console.log('O B A', res);
+                        if (res.error) {
+                            dispatch(showNotificationModal(false, MSG_ERROR_SEND_FORM_REGISTRATION));
+                        } else {
+                            dispatch(setEditStudent());
+                            dispatch(loadParticipants());
+                        }
+                    });
+            });
+    }
+};
+
 
 export const setEditStudent = () => ({
     type: EDIT_STUDENT_MODAL_SAVE_EDIT_STUDENT,

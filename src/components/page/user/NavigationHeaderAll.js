@@ -1,9 +1,9 @@
 import React from 'react';
 import {Navbar, Nav} from 'react-bootstrap'
 import {connect} from "react-redux";
-import {openForm} from "../store/login/actions";
+import {openForm} from "../../../store/login/actions";
 import {Link} from "react-router-dom";
-import {ACTIVE_USER} from "../data/Constants";
+import {ACTIVE_USER} from "../../../data/Constants";
 
 class NavigationHeaderAll extends React.Component {
 

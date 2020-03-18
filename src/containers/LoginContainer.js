@@ -1,7 +1,7 @@
 import React from "react"
 import {connect} from 'react-redux';
 import {openForm} from "../store/login/actions";
-import Login from "../components/Login";
+import Login from "../components/page/admin/Login";
 
 class LoginContainer extends React.Component {
 

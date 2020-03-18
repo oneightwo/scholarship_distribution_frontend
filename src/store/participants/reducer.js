@@ -13,7 +13,8 @@ export const participantsReducer = (state = defaultState, {type, payload}) => {
             return {
                 ...state,
                 data: payload,
-                listParticipants: payload
+                listParticipants: state.search === '' ? payload :
+                    payload.filter(student => (student.surname + ' ' + student.name + ' ' + student.patronymic).toLowerCase().startsWith(state.search.toLowerCase(), 0))
             };
         case PARTICIPANTS_SEARCH_NAME:
             console.log(PARTICIPANTS_SEARCH_NAME, payload);

@@ -1,4 +1,4 @@
-import {MODAL_HIDE, MODAL_SHOW} from "./actions";
+import {NOTIFICATION_MODAL_HIDE, NOTIFICATION_MODAL_SHOW} from "./actions";
 
 const defaultState = {
     show: false,
@@ -6,16 +6,16 @@ const defaultState = {
     typeIsOk: false
 };
 
-export const alertReducer = (state = defaultState, {type, payload}) => {
+export const notificationModalReducer = (state = defaultState, {type, payload}) => {
     switch (type) {
-        case MODAL_SHOW:
+        case NOTIFICATION_MODAL_SHOW:
             return {
                 ...state,
                 show: payload.show,
                 text: payload.text,
                 typeIsOk: payload.typeIsOk
             };
-        case MODAL_HIDE:
+        case NOTIFICATION_MODAL_HIDE:
             return {
                 ...state,
                 show: payload.show,

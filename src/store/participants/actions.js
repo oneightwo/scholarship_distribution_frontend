@@ -1,4 +1,4 @@
-import {getCurrentParticipants, token} from "../../data/AdminQueries";
+import {getCurrentParticipants, getCurrentReportsByDirections, token} from "../../data/AdminQueries";
 import {showNotificationModal} from "../notificationModal/actions";
 import {hideProcessing, showProcessing} from "../processing/actions";
 import {LOAD} from "../../data/Constants";

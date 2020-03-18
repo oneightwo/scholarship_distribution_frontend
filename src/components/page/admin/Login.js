@@ -1,10 +1,10 @@
 import React from "react"
-import Label from "./base/Label";
-import Input from "./base/Input";
+import Label from "../../base/Label";
+import Input from "../../base/Input";
 import {Button, Container, Modal, Row} from "react-bootstrap";
 import {connect} from 'react-redux';
-import {authorization, changeField, checkValidation, closeForm} from "../store/login/actions";
-import {ACTIVE_USER} from "../data/Constants";
+import {authorization, changeField, checkValidation, closeForm} from "../../../store/login/actions";
+import {ACTIVE_USER} from "../../../data/Constants";
 
 class Login extends React.Component {
 

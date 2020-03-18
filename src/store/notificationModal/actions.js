@@ -1,8 +1,8 @@
-export const MODAL_SHOW = 'MODAL_SHOW';
-export const MODAL_HIDE = 'MODAL_HIDE';
+export const NOTIFICATION_MODAL_SHOW = 'NOTIFICATION_MODAL_SHOW';
+export const NOTIFICATION_MODAL_HIDE = 'NOTIFICATION_MODAL_HIDE';
 
 export const showNotificationModal = (typeIsOk, text) => ({
-    type:MODAL_SHOW,
+    type:NOTIFICATION_MODAL_SHOW,
     payload: {
         show: true,
         text,
@@ -11,7 +11,7 @@ export const showNotificationModal = (typeIsOk, text) => ({
 });
 
 export const hideNotificationModal = () => ({
-    type: MODAL_HIDE,
+    type: NOTIFICATION_MODAL_HIDE,
     payload: {
         show: false
     }

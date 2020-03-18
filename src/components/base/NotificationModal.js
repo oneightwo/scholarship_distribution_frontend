@@ -6,8 +6,8 @@ import {hideNotificationModal} from "../../store/notificationModal/actions";
 class NotificationModal extends React.Component {
 
     handleClick = () => {
-        const {hideAlert} = this.props;
-        hideAlert();
+        const {hideModal} = this.props;
+        hideModal();
     };
 
     className = (isOk) => {
@@ -46,16 +46,16 @@ class NotificationModal extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.alert,
-        typeIsOk: state.alert.typeIsOk,
-        show: state.alert.show,
-        text: state.alert.text
+        data: state.notificationModal,
+        typeIsOk: state.notificationModal.typeIsOk,
+        show: state.notificationModal.show,
+        text: state.notificationModal.text
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        hideAlert: (isOk) => dispatch(hideNotificationModal(isOk))
+        hideModal: (isOk) => dispatch(hideNotificationModal(isOk))
     }
 };
 

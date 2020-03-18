@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
-import NavigationHeaderAll from "../components/NavigationHeaderAll";
-import NavigationHeaderAdmin from "../components/NavigationHeaderAdmin";
+import NavigationHeaderAll from "../components/page/user/NavigationHeaderAll";
+import NavigationHeaderAdmin from "../components/page/admin/NavigationHeaderAdmin";
 import {ACTIVE_USER} from "../data/Constants";
 import {setActiveAdmin} from "../store/navigationHeader/actions";
 

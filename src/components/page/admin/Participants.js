@@ -1,5 +1,5 @@
 import React from "react"
-import ListItem from "../../base/ListItem";
+import ListItem from "./ListItem";
 import {connect} from "react-redux";
 import {loadParticipants, searchName} from "../../../store/participants/actions";
 import Input from "../../base/Input";
@@ -21,6 +21,10 @@ class Participants extends React.Component {
         this.props.showEditStudentModal(student);
     };
 
+    clearSearch = () => {
+        this.props.searchName('');
+    };
+
     render() {
         const {listParticipants, search} = this.props;
         console.log("listParticipants", listParticipants);
@@ -29,11 +33,12 @@ class Participants extends React.Component {
                 <div className="card fixed-top shadow" style={{marginTop: "56px"}}>
                     <div className="card-body m-1 p-0">
                         <div className='row align-items-center p-0 m-1'>
-                            <div className='col-3'>
+                            <div className='col-4 input-group'>
                                 <Input id='searchName' value={search} onChange={this.search}
                                        placeholder='Поиск (ФИО)...'/>
-                            </div>
-                            <div className='col-1 text-truncate text-center'>
+                                <button className='btn btn-info' onClick={this.clearSearch}>
+                                    Очистить
+                                </button>
                             </div>
                             <div className='col-1 text-truncate'>
                             </div>

@@ -68,7 +68,7 @@ export const token = async () => {
     }
 };
 
-export const changeSettings = (token, data) => {
+export const changeSettings = async (token, data) => {
     let myHeaders = new Headers();
     myHeaders.append("Authorization", "bearer " + token);
     myHeaders.append("Content-Type", "application/json");
@@ -90,7 +90,7 @@ export const changeSettings = (token, data) => {
         .catch(error => console.log('error', error));
 };
 
-export const changeStudent = (token, data) => {
+export const changeStudent = async (token, data) => {
     let myHeaders = new Headers();
     myHeaders.append("Authorization", "bearer " + token);
     myHeaders.append("Content-Type", "application/json");
@@ -112,7 +112,26 @@ export const changeStudent = (token, data) => {
         .catch(error => console.log('error', error));
 };
 
-export const getCurrentParticipants = (token) => {
+export const deleteStudent = async (token, data) => {
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "bearer " + token);
+    myHeaders.append("Content-Type", "application/json");
+    console.log(data);
+    let requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders
+    };
+
+    return fetch(PREFIX_URL_ADMIN + 'students/' + data.id, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            return result
+        })
+        .catch(error => console.log('error', error));
+};
+
+export const getCurrentParticipants = async (token) => {
     let myHeaders = new Headers();
     myHeaders.append("Authorization", "bearer " + token);
     myHeaders.append("Content-Type", "application/json");
@@ -126,6 +145,64 @@ export const getCurrentParticipants = (token) => {
         .then(response => response.json())
         .then(result => {
             // console.log(result);
+            return result
+        })
+        .catch(error => console.log('error', error));
+};
+
+export const getCurrentWinnerStudents = async (token) => {
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "bearer " + token);
+    myHeaders.append("Content-Type", "application/json");
+
+    let requestOptions = {
+        method: 'GET',
+        headers: myHeaders
+    };
+
+    return fetch(PREFIX_URL_ADMIN + '/results/winners/current', requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log('result', result);
+            return result
+        })
+        .catch(error => console.log('error', error));
+};
+
+export const getCurrentReportsByDirections = async (token) => {
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "bearer " + token);
+    myHeaders.append("Content-Type", "application/json");
+
+    let requestOptions = {
+        method: 'GET',
+        headers: myHeaders
+    };
+
+    return fetch(PREFIX_URL_ADMIN + '/reports/directions/current', requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log('result', result);
+            return result
+        })
+        .catch(error => console.log('error', error));
+};
+
+
+export const getCurrentReportsByUniversities = async (token) => {
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "bearer " + token);
+    myHeaders.append("Content-Type", "application/json");
+
+    let requestOptions = {
+        method: 'GET',
+        headers: myHeaders
+    };
+
+    return fetch(PREFIX_URL_ADMIN + '/reports/universities/current', requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log('result', result);
             return result
         })
         .catch(error => console.log('error', error));

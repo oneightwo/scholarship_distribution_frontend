@@ -6,7 +6,7 @@ import {
     initNavHeader,
     logoff,
     setActiveRegistration
-} from "../store/navigationHeader/actions";
+} from "../../../store/navigationHeader/actions";
 
 class NavigationHeaderAdmin extends React.Component {
 
@@ -39,6 +39,9 @@ class NavigationHeaderAdmin extends React.Component {
                             </li>
                             <li className="nav-item">
                                 <Link to='/participants' className="nav-link">Участники</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to='/winners' className="nav-link">Победители</Link>
                             </li>
                             <li className="nav-item">
                                 <Link to='/reports' className="nav-link">Отчеты</Link>

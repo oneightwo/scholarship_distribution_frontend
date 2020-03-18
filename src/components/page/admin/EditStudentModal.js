@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {
     changeField,
     checkValidation,
+    deleteEditStudent,
     hideEditStudentModal,
     saveEditStudent
 } from "../../../store/editStudentModal/actions";
@@ -31,6 +32,12 @@ class EditStudentModal extends React.Component {
         if (store.getState().editStudentModal.isValid) {
             saveEditStudent(student);
         }
+    };
+
+    handleClickDelete = () => {
+        const {deleteEditStudent, student} = this.props;
+        console.log('handleClickDelete', student);
+        deleteEditStudent(student);
     };
 
     onChange = (id, value, isValid, required) => {
@@ -279,7 +286,7 @@ class EditStudentModal extends React.Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className='btn btn-outline-danger'>
+                    <button className='btn btn-outline-danger' onClick={this.handleClickDelete}>
                         Удалить
                     </button>
                     <button className='btn btn-primary' onClick={this.handleClickClose}>
@@ -310,8 +317,9 @@ const mapDispatchToProps = dispatch => {
     return {
         hideEditStudentModal: () => dispatch(hideEditStudentModal()),
         saveEditStudent: (student) => dispatch(saveEditStudent(student)),
+        deleteEditStudent: (student) => dispatch(deleteEditStudent(student)),
         changeField: (id, value, isValid, required) => dispatch(changeField(id, value, isValid, required)),
-        checkValidation: () => dispatch(checkValidation())
+        checkValidation: () => dispatch(checkValidation()),
     }
 };
 
